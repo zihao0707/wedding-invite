@@ -1,183 +1,346 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Howard & [新娘名字] 的婚禮邀請</title>
-    <style>
-        /* 基礎設定與字型 */
-        body {
-            font-family: 'Nunito', 'Microsoft JhengHei', sans-serif;
-            background-color: #FAF3E0; /* 溫暖的奶油底色 */
-            color: #5C4033; /* 柔和的深咖啡色文字 */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>褚梓豪 & 陳郁閔 Wedding</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#FAF3E0;--white:#FFFFFF;--gold:#C9A24A;--gold-lt:#E8D5A3;
+  --gold-pale:#F7EFD8;--brown:#4A3020;--brown-lt:#8C6A50;--brown-md:#7A5C46;
+  --border:#DFC48A;--red:#A8271A;--shadow:rgba(74,48,32,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Noto Serif TC',serif;background:#2A1A0A;display:flex;justify-content:center;min-height:100vh;}
+.app{width:100%;max-width:480px;min-height:100vh;position:relative;overflow:hidden;background:var(--white);box-shadow:0 0 60px rgba(0,0,0,0.6);}
 
-        /* 限制最大寬度，呈現手機版 APP 質感 */
-        .container {
-            max-width: 480px;
-            width: 100%;
-            background-color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            min-height: 100vh;
-            position: relative;
-        }
+/* PAGE SYSTEM */
+.page{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;will-change:transform,opacity;padding-bottom:90px;}
+.page.active{opacity:1;pointer-events:all;}
+@keyframes pageIn{0%{opacity:0;transform:scale(0.94) translateY(24px);filter:blur(4px);}100%{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}}
+@keyframes pageOut{0%{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}100%{opacity:0;transform:scale(1.04) translateY(-16px);filter:blur(6px);}}
+.page.entering{animation:pageIn 0.55s cubic-bezier(.22,.9,.36,1) forwards;}
+.page.leaving{animation:pageOut 0.4s cubic-bezier(.55,0,.8,.45) forwards;}
 
-        /* 頂部主視覺區塊 */
-        .hero-section {
-            text-align: center;
-            padding: 40px 20px 20px;
-            background-color: #FDF8ED;
-            border-bottom: 2px dashed #E2C792;
-        }
-        .hero-section h1 {
-            font-size: 28px;
-            margin: 10px 0;
-            letter-spacing: 1px;
-        }
-        .hero-section p {
-            font-size: 16px;
-            color: #8C6A50;
-            margin-bottom: 20px;
-        }
-        .hero-image {
-            width: 100%;
-            border-radius: 16px;
-            /* 這裡未來可替換成你們專屬的 Q 版插畫圖片網址 */
-            background: #EEDCA5 url('https://placehold.co/400x300/EEDCA5/5C4033?text=Q+Version+Illustration+Here') center/cover;
-            aspect-ratio: 4 / 3;
-            margin-bottom: 10px;
-        }
 
-        /* 影片區塊 */
-        .video-section {
-            padding: 30px 20px;
-            background-color: #FFFFFF;
-            text-align: center;
-        }
-        .video-section h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #D4A373;
-        }
-        .video-wrapper {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border: 4px solid #F4E8D1;
-        }
-        .video-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+/* NAV */
+.nav-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:rgba(255,255,255,0.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--gold-lt);display:flex;z-index:100;box-shadow:0 -4px 24px rgba(74,48,32,0.1);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 14px;cursor:pointer;border:none;background:transparent;gap:4px;position:relative;transition:transform 0.2s;}
+.nav-btn:active{transform:scale(0.90);}
+.nav-btn .nav-icon{font-size:20px;line-height:1;transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);}
+.nav-btn.active .nav-icon{transform:scale(1.3);}
+.nav-btn .nav-label{font-size:9px;letter-spacing:1px;color:var(--brown-lt);font-weight:300;transition:color 0.2s;white-space:nowrap;}
+.nav-btn.active .nav-label{color:var(--gold);font-weight:700;}
+.nav-btn::after{content:'';position:absolute;bottom:0;left:25%;right:25%;height:3px;border-radius:2px;background:var(--gold);transform:scaleX(0);transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);}
+.nav-btn.active::after{transform:scaleX(1);}
 
-        /* 資訊區塊 (圓潤骨頭/對話框風格) */
-        .info-section {
-            padding: 30px 20px;
-            background-color: #FDF8ED;
-        }
-        .info-card {
-            background-color: #FFFFFF;
-            border-radius: 20px;
-            padding: 25px;
-            border: 2px solid #E2C792;
-            position: relative;
-        }
-        .info-card h3 {
-            margin-top: 0;
-            text-align: center;
-            font-size: 22px;
-            border-bottom: 1px solid #F0E6D2;
-            padding-bottom: 10px;
-        }
-        .info-list {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0 0 0;
-            line-height: 2;
-            font-size: 16px;
-        }
-        .info-list li {
-            margin-bottom: 10px;
-        }
-        
-        /* RSVP 按鈕區塊 */
-        .rsvp-section {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: #FFFFFF;
-        }
-        .rsvp-btn {
-            display: inline-block;
-            background-color: #E2C792;
-            color: #5C4033;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 15px 40px;
-            border-radius: 30px;
-            box-shadow: 0 4px 6px rgba(226, 199, 146, 0.4);
-            transition: transform 0.2s;
-        }
-        .rsvp-btn:active {
-            transform: scale(0.95);
-        }
+/* UTIL */
+.deco-divider{text-align:center;color:var(--gold);font-size:12px;letter-spacing:12px;opacity:0.4;padding:8px 0;}
+.section-label{font-size:10px;letter-spacing:5px;color:var(--gold);text-align:center;margin-bottom:6px;font-weight:300;}
+.section-title{font-size:20px;font-weight:700;color:var(--brown);letter-spacing:3px;text-align:center;margin-bottom:4px;}
+.section-sub{font-size:12px;color:var(--brown-lt);text-align:center;letter-spacing:1.5px;font-weight:300;margin-bottom:24px;}
+.page-footer{text-align:center;padding:20px 24px;font-size:11px;color:var(--brown-lt);opacity:0.4;letter-spacing:2px;}
 
-        /* 底部裝飾 */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #BBA58F;
-        }
-    </style>
+/* ══ PAGE 1: INVITE ══ */
+#page-invite{background:linear-gradient(180deg,#FDF7E8 0%,#FAF0D4 60%,#F5E8C0 100%);}
+.hero-wrap{padding:48px 24px 28px;text-align:center;position:relative;overflow:hidden;}
+.hero-bg-xi{position:absolute;font-size:400px;color:var(--gold);opacity:0.045;top:-80px;left:50%;transform:translateX(-50%);pointer-events:none;line-height:1;animation:floatXi 6s ease-in-out infinite alternate;}
+@keyframes floatXi{from{transform:translateX(-50%) translateY(0);}to{transform:translateX(-50%) translateY(-14px);}}
+.hero-tag{display:inline-block;background:rgba(201,162,74,0.12);border:1px solid var(--border);border-radius:30px;font-size:11px;letter-spacing:4px;color:var(--brown-lt);padding:4px 18px;margin-bottom:20px;animation:fadeUp 0.8s 0.1s both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.hero-names{font-family:'Playfair Display','Noto Serif TC',serif;font-size:34px;font-weight:700;color:var(--brown);letter-spacing:2px;line-height:1.2;margin-bottom:6px;animation:fadeUp 0.8s 0.25s both;}
+.hero-names .amp{color:var(--gold);font-style:italic;font-size:28px;margin:0 8px;}
+.hero-tagline{font-size:13px;color:var(--brown-lt);letter-spacing:3px;font-weight:300;margin-bottom:28px;animation:fadeUp 0.8s 0.35s both;}
+.hero-img{width:100%;aspect-ratio:4/3;border-radius:24px;background:#EEDCA5 url('https://placehold.co/440x330/EEDCA5/5C4033?text=✿+Q+Version+Illustration+✿') center/cover;border:3px solid var(--border);box-shadow:0 8px 32px var(--shadow),0 0 0 8px rgba(201,162,74,0.08);margin-bottom:24px;animation:fadeUp 0.8s 0.45s both;}
+.date-badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:2px solid var(--border);border-radius:40px;padding:9px 24px;font-size:14px;color:var(--brown);letter-spacing:2px;box-shadow:0 4px 16px var(--shadow);animation:fadeUp 0.8s 0.55s both;}
+.date-badge .dot{color:var(--gold);font-size:8px;}
+.info-wrap{padding:28px 24px 0;}
+.info-card{background:var(--white);border-radius:24px;padding:24px 20px;border:2px solid var(--border);box-shadow:0 4px 20px var(--shadow);}
+.info-card-title{text-align:center;font-size:16px;font-weight:700;letter-spacing:3px;color:var(--brown);border-bottom:1px dashed var(--border);padding-bottom:12px;margin-bottom:16px;}
+.info-list{list-style:none;}
+.info-list li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--gold-pale);font-size:14px;}
+.info-list li:last-child{border-bottom:none;}
+.info-list .ilabel{color:var(--brown-lt);font-size:12px;white-space:nowrap;flex-shrink:0;padding-top:1px;letter-spacing:1px;}
+.info-list .ival{color:var(--brown);font-weight:600;letter-spacing:1px;line-height:1.6;}
+.info-list .ival small{display:block;font-size:11.5px;font-weight:300;color:var(--brown-lt);margin-top:1px;}
+.rsvp-wrap{padding:32px 24px 8px;text-align:center;}
+.rsvp-hint{font-size:13px;color:var(--brown-lt);letter-spacing:2px;margin-bottom:16px;}
+.rsvp-btn{display:inline-block;background:linear-gradient(135deg,#D4A84B,#C9922A);color:var(--white);font-size:15px;font-weight:700;letter-spacing:3px;padding:14px 44px;border-radius:40px;box-shadow:0 6px 20px rgba(201,146,42,0.4);text-decoration:none;transition:transform 0.2s;font-family:'Noto Serif TC',serif;}
+.rsvp-btn:active{transform:scale(0.95);}
+
+/* ══ PAGE 2: VIDEO ══ */
+#page-video{background:var(--white);}
+.video-hero{background:linear-gradient(180deg,#2A1A0A 0%,#3D2510 100%);padding:48px 24px 36px;text-align:center;position:relative;overflow:hidden;}
+.video-hero::before{content:'♥';position:absolute;font-size:300px;color:rgba(201,162,74,0.06);top:-60px;left:50%;transform:translateX(-50%);}
+.video-hero .section-label{color:var(--gold-lt);}
+.video-hero .section-title{color:var(--white);font-size:22px;}
+.video-hero .section-sub{color:rgba(255,255,255,0.5);}
+.days-count{display:inline-block;font-family:'Playfair Display',serif;font-size:68px;color:var(--gold);font-weight:700;line-height:1;margin-bottom:4px;text-shadow:0 0 30px rgba(201,162,74,0.4);}
+.days-label{font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:4px;margin-bottom:12px;}
+.video-body{padding:28px 24px;}
+.video-wrapper{width:100%;aspect-ratio:16/9;border-radius:18px;overflow:hidden;box-shadow:0 8px 32px var(--shadow);border:3px solid var(--gold-pale);margin-bottom:20px;}
+.video-wrapper iframe{width:100%;height:100%;border:none;}
+.memory-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:4px 0 8px;}
+.chip{background:var(--gold-pale);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--brown-lt);letter-spacing:1px;}
+
+/* ══ PAGE 3: SCHEDULE ══ */
+#page-schedule{background:var(--cream);}
+.schedule-hero{background:linear-gradient(160deg,#3D2014 0%,#6B3A1F 100%);padding:44px 24px 52px;text-align:center;position:relative;overflow:hidden;}
+.schedule-hero::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:40px;background:var(--cream);border-radius:40px 40px 0 0;}
+.schedule-hero .section-label{color:var(--gold-lt);opacity:0.7;}
+.schedule-hero .section-title{color:var(--white);}
+.schedule-hero .section-sub{color:rgba(255,255,255,0.5);margin-bottom:0;}
+.schedule-body{padding:20px 18px 0;}
+.period{background:var(--white);border-radius:20px;padding:20px 18px;margin-bottom:16px;border:1.5px solid var(--border);box-shadow:0 2px 12px var(--shadow);}
+.period-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--border);}
+.period-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 2px 8px var(--shadow);}
+.p-morning .period-icon{background:linear-gradient(135deg,#FCE38A,#F9A825);}
+.p-noon .period-icon{background:linear-gradient(135deg,#FF9A9E,#C0392B);}
+.p-afternoon .period-icon{background:linear-gradient(135deg,#FFD89B,#E67E22);}
+.period-meta{flex:1;}
+.period-name{font-size:15px;font-weight:700;color:var(--brown);letter-spacing:2px;}
+.period-ji{font-size:11px;color:var(--gold);letter-spacing:1px;margin-top:2px;}
+.period-tag{background:var(--gold-pale);border:1px solid var(--border);border-radius:14px;padding:3px 10px;font-size:10px;color:var(--brown-lt);letter-spacing:1px;}
+.tl{position:relative;padding-left:14px;}
+.tl::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--gold-lt),var(--border));border-radius:2px;}
+.tl-item{display:grid;grid-template-columns:80px 1fr;gap:0 14px;padding:12px 0;border-bottom:1px dashed rgba(223,196,138,0.35);position:relative;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--white),0 0 0 5px rgba(201,162,74,0.25);position:absolute;left:-18px;top:14px;}
+.tl-time{text-align:right;padding-right:12px;border-right:1px solid var(--gold-pale);}
+.tl-time .t{font-size:11.5px;font-weight:600;color:var(--brown-lt);letter-spacing:0.5px;line-height:1.5;}
+.tl-title{font-size:13.5px;font-weight:700;color:var(--brown);letter-spacing:1.5px;margin-bottom:5px;}
+.tl-details{list-style:none;}
+.tl-details li{font-size:12px;color:var(--brown-lt);line-height:1.9;padding-left:12px;position:relative;font-weight:300;}
+.tl-details li::before{content:'›';color:var(--gold);position:absolute;left:0;font-size:13px;top:-1px;}
+
+/* ══ PAGE 4: WISH ══ */
+#page-wish{background:var(--white);}
+.wish-hero{background:linear-gradient(160deg,#FDF0DC 0%,#FAE8C0 100%);padding:44px 24px 36px;text-align:center;position:relative;overflow:hidden;}
+.wish-hero::before{content:'✿';position:absolute;font-size:260px;color:rgba(201,162,74,0.07);top:-30px;left:50%;transform:translateX(-50%);}
+.wish-input-wrap{padding:24px 24px 16px;}
+.wish-textarea{width:100%;min-height:100px;border:2px solid var(--border);border-radius:16px;padding:14px 16px;font-family:'Noto Serif TC',serif;font-size:14px;color:var(--brown);background:var(--gold-pale);resize:none;outline:none;letter-spacing:1px;transition:border-color 0.2s,box-shadow 0.2s;margin-bottom:12px;display:block;}
+.wish-textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,162,74,0.15);}
+.wish-send-btn{width:100%;background:linear-gradient(135deg,#D4A84B,#C9922A);color:var(--white);border:none;border-radius:14px;padding:14px;font-size:14px;font-weight:700;letter-spacing:3px;font-family:'Noto Serif TC',serif;cursor:pointer;box-shadow:0 4px 16px rgba(201,146,42,0.35);transition:transform 0.2s;}
+.wish-send-btn:active{transform:scale(0.97);}
+.wish-wall{padding:0 24px;}
+.wish-card{background:var(--gold-pale);border:1px solid var(--border);border-radius:18px;padding:18px 16px;margin-bottom:12px;position:relative;animation:fadeUp 0.5s both;}
+.wish-card::before{content:'"';position:absolute;top:8px;left:14px;font-size:36px;color:var(--gold);opacity:0.3;font-family:'Playfair Display',serif;line-height:1;}
+.wish-text{font-size:14px;color:var(--brown);line-height:1.9;padding-left:18px;letter-spacing:0.5px;}
+.wish-meta{margin-top:8px;font-size:11px;color:var(--brown-lt);text-align:right;letter-spacing:1px;}
+.wish-placeholder{text-align:center;color:var(--brown-lt);font-size:13px;letter-spacing:2px;padding:24px 0;opacity:0.6;}
+</style>
 </head>
 <body>
 
-<div class="container">
-    
-    <div class="hero-section">
-        <h1>Howard & [新娘名字]</h1>
-        <p>我們準備要結婚了！</p>
-        <div class="hero-image"></div>
-        <p style="font-size: 14px; margin-top: 15px;">2026 . XX . XX</p>
-    </div>
+<div class="app">
 
-    <div class="video-section">
-        <h2>2481 天的點滴，濃縮在這一刻</h2>
-        <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=abcdefg" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
+<!-- PAGE 1 邀請函 -->
+<div class="page active" id="page-invite">
+  <div class="hero-wrap">
+    <div class="hero-bg-xi">囍</div>
+    <div class="hero-tag">婚禮邀請函</div>
+    <div class="hero-names">褚梓豪<span class="amp">&amp;</span>陳郁閔</div>
+    <div class="hero-tagline">我們準備要結婚了 ✦ 誠摯邀請您的蒞臨</div>
+    <div class="hero-img"></div>
+    <div class="date-badge">2026<span class="dot">●</span>11<span class="dot">●</span>15<span style="margin-left:6px;color:var(--brown-lt);font-size:12px;">農曆十月初六</span></div>
+  </div>
+  <div class="info-wrap">
+    <div class="info-card">
+      <div class="info-card-title">🐾 婚宴資訊 🐾</div>
+      <ul class="info-list">
+        <li><span class="ilabel">📅 日期</span><span class="ival">2026 年 11 月 15 日（星期日）<small>農曆丙午年 十月初六</small></span></li>
+        <li><span class="ilabel">⏰ 時間</span><span class="ival">入席 12:10 ｜ 開席 12:45</span></li>
+        <li><span class="ilabel">📍 地點</span><span class="ival">土城古都活海鮮餐廳<small>囍都國際宴會館　精緻家宴 5 桌</small></span></li>
+      </ul>
     </div>
-
-    <div class="info-section">
-        <div class="info-card">
-            <h3>🐾 婚宴資訊 🐾</h3>
-            <ul class="info-list">
-                <li><strong>📅 日期：</strong>2026年 X 月 X 日 (星期X)</li>
-                <li><strong>⏰ 時間：</strong>入席 11:30 | 開席 12:00</li>
-                <li><strong>📍 地點：</strong>[飯店或婚宴會館名稱]</li>
-                <li><strong>🗺️ 地址：</strong>[詳細地址]</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="rsvp-section">
-        <p>期待您與我們一起見證這份喜悅🐕</p>
-        <a href="#" class="rsvp-btn">填寫出席意願 (RSVP)</a>
-    </div>
-
-    <div class="footer">
-        © 2026 Howard & [新娘名字]. All rights reserved.
-    </div>
-
+  </div>
+  <div class="rsvp-wrap">
+    <div class="rsvp-hint">期待您與我們一起見證這份喜悅 🐕</div>
+    <a href="#" class="rsvp-btn">填寫出席意願 RSVP</a>
+  </div>
+  <div class="page-footer">© 2026 褚梓豪 &amp; 陳郁閔 All rights reserved.</div>
 </div>
 
+<!-- PAGE 2 影片 -->
+<div class="page" id="page-video">
+  <div class="video-hero">
+    <div class="section-label">OUR STORY</div>
+    <div class="days-count">2481</div>
+    <div class="days-label">天的相遇與陪伴</div>
+    <div class="section-title">點滴，濃縮在這一刻</div>
+    <div class="section-sub">感謝你一路走來 ♥</div>
+  </div>
+  <div class="video-body">
+    <div class="video-wrapper">
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=abcdefg" title="我們的故事" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="deco-divider">✦ ✦ ✦</div>
+    <div class="memory-chips">
+      <div class="chip">🌸 相識</div>
+      <div class="chip">☕ 第一次約會</div>
+      <div class="chip">✈️ 第一次旅行</div>
+      <div class="chip">🏠 共築小窩</div>
+      <div class="chip">💍 求婚</div>
+      <div class="chip">💒 步入禮堂</div>
+    </div>
+  </div>
+  <div class="page-footer">© 2026 褚梓豪 &amp; 陳郁閔</div>
+</div>
+
+<!-- PAGE 3 行程表 -->
+<div class="page" id="page-schedule">
+  <div class="schedule-hero">
+    <div class="section-label">WEDDING SCHEDULE</div>
+    <div class="section-title" style="color:#fff;">婚禮家宴行程表</div>
+    <div class="section-sub">2026.11.15 ｜ 土城古都活海鮮餐廳</div>
+  </div>
+  <div class="schedule-body">
+    <div class="period p-morning">
+      <div class="period-header">
+        <div class="period-icon">🌅</div>
+        <div class="period-meta"><div class="period-name">上午　梳化與納吉</div><div class="period-ji">吉時：辰時</div></div>
+        <div class="period-tag">AM</div>
+      </div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">07:00<br>—<br>09:30</div></div>
+          <div class="tl-content"><div class="tl-title">晨間梳化 ✦ 辰時</div><ul class="tl-details"><li>新娘於家中或飯店開始妝髮造型</li><li>新郎確認六禮 / 十二禮紅包、戒指、謝籃等物資</li></ul></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">10:00<br>—<br>10:30</div></div>
+          <div class="tl-content"><div class="tl-title">出發轉運　車隊啟程</div><ul class="tl-details"><li>車隊由家中出發，前往古都餐廳</li><li>抵達後繞行餐廳兩圈，象徵圓滿接氣</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="period p-noon">
+      <div class="period-header">
+        <div class="period-icon">🕛</div>
+        <div class="period-meta"><div class="period-name">中午　核心儀式</div><div class="period-ji">吉時：午時</div></div>
+        <div class="period-tag">PM</div>
+      </div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">11:00<br>—<br>11:30</div></div>
+          <div class="tl-content"><div class="tl-title">文定奉茶　休息室</div><ul class="tl-details"><li>男方長輩就座，新娘由媒人或好命婆牽引出場奉茶</li><li>長輩回壓紅包，並予以祝福</li></ul></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">11:30<br>—<br>12:00</div></div>
+          <div class="tl-content"><div class="tl-title">交換信物 ✦ 進房儀式</div><ul class="tl-details"><li>新郎新娘交換戒指，象徵定情</li><li>休息室內鋪新郎長褲，新人並坐</li><li>互餵甜湯圓，象徵甜蜜、早生貴子</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="period p-afternoon">
+      <div class="period-header">
+        <div class="period-icon">🥂</div>
+        <div class="period-meta"><div class="period-name">下午　溫馨家宴</div><div class="period-ji">吉時：未時</div></div>
+        <div class="period-tag">PM</div>
+      </div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">12:10<br>—<br>12:30</div></div>
+          <div class="tl-content"><div class="tl-title">貴賓入席</div><ul class="tl-details"><li>五桌親友陸續抵達，引導就坐</li></ul></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">12:30<br>—<br>12:45</div></div>
+          <div class="tl-content"><div class="tl-title">幸福進場</div><ul class="tl-details"><li>新人利用樓梯進行簡單進場，接受親友掌聲</li></ul></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">12:45<br>—<br>14:30</div></div>
+          <div class="tl-content"><div class="tl-title">宴席開始　敬酒致謝</div><ul class="tl-details"><li>開席致詞：感謝長輩與親友蒞臨</li><li>逐桌敬酒，深入與每位親友致謝</li></ul></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-time"><div class="t">14:30<br>—<br>15:00</div></div>
+          <div class="tl-content"><div class="tl-title">圓滿送客</div><ul class="tl-details"><li>門口合照留念</li><li>分發喜糖，感謝每位親友的見證</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">© 2026 褚梓豪 &amp; 陳郁閔</div>
+</div>
+
+<!-- PAGE 4 祝福留言 -->
+<div class="page" id="page-wish">
+  <div class="wish-hero">
+    <div class="section-label">BLESSINGS</div>
+    <div class="section-title">留下你的祝福 ✿</div>
+    <div class="section-sub">每一句話，我們都會珍藏</div>
+  </div>
+  <div class="wish-input-wrap">
+    <textarea class="wish-textarea" id="wish-input" placeholder="寫下你對我們的祝福…&#10;例：恭喜梓豪和郁閔，祝你們永浴愛河！"></textarea>
+    <button class="wish-send-btn" onclick="sendWish()">送出祝福 ✦</button>
+  </div>
+  <div class="wish-wall" id="wish-wall">
+    <div class="wish-placeholder" id="wish-empty">目前還沒有留言，快來第一個留言吧！🌸</div>
+  </div>
+  <div class="page-footer">© 2026 褚梓豪 &amp; 陳郁閔</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-bar">
+  <button class="nav-btn active" data-page="page-invite" onclick="goPage(this)">
+    <span class="nav-icon">💌</span><span class="nav-label">邀請函</span>
+  </button>
+  <button class="nav-btn" data-page="page-video" onclick="goPage(this)">
+    <span class="nav-icon">🎬</span><span class="nav-label">我們的故事</span>
+  </button>
+  <button class="nav-btn" data-page="page-schedule" onclick="goPage(this)">
+    <span class="nav-icon">📋</span><span class="nav-label">行程表</span>
+  </button>
+  <button class="nav-btn" data-page="page-wish" onclick="goPage(this)">
+    <span class="nav-icon">🌸</span><span class="nav-label">祝福留言</span>
+  </button>
+</nav>
+
+</div>
+<script>
+/* ── 頁面切換 ── */
+let currentPage = document.getElementById('page-invite');
+let isAnimating = false;
+
+function goPage(btn) {
+  if (isAnimating) return;
+  const target = document.getElementById(btn.dataset.page);
+  if (target === currentPage) return;
+  isAnimating = true;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPage.classList.add('leaving');
+  currentPage.addEventListener('animationend', function onOut() {
+    currentPage.removeEventListener('animationend', onOut);
+    currentPage.classList.remove('active','leaving');
+    currentPage.scrollTop = 0;
+    target.classList.add('active','entering');
+    target.addEventListener('animationend', function onIn() {
+      target.removeEventListener('animationend', onIn);
+      target.classList.remove('entering');
+      currentPage = target;
+      isAnimating = false;
+    });
+  });
+}
+
+/* ── 祝福留言 ── */
+const wishes=[];
+function sendWish(){
+  const input=document.getElementById('wish-input');
+  const text=input.value.trim();
+  if(!text)return;
+  const now=new Date();
+  const time=`${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  wishes.unshift({text,time});
+  input.value='';
+  renderWishes();
+  
+}
+function renderWishes(){
+  const wall=document.getElementById('wish-wall');
+  const empty=document.getElementById('wish-empty');
+  if(wishes.length===0){empty.style.display='block';return;}
+  empty.style.display='none';
+  wall.innerHTML=wishes.map(w=>`<div class="wish-card"><div class="wish-text">${esc(w.text)}</div><div class="wish-meta">${w.time}</div></div>`).join('');
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');}
+</script>
 </body>
 </html>
